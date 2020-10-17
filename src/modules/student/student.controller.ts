@@ -1,31 +1,80 @@
-import { Controller, Get, Req, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Req, Put, Param, Post, Body, Delete, Inject } from '@nestjs/common';
 import {StudentService } from './student.service';
 import { StudentEntity } from './student.entity';
 import {CreateStudentDto} from './dto/student.dto'
+import { Result } from '../../common/result.interface';
+
 
 
 
 @Controller('student')
 export class studentController {
-  constructor(private readonly studentService: StudentService) {}
+  constructor( @Inject(StudentService) private readonly studentService: StudentService) {}
 
   @Get()
-  getList(): Promise<any> {
-    return this.studentService.getStudentsList()
+  async getList(): Promise<Result> {
+    const res = await  this.studentService.getStudentsList();
+    return  {
+      code:200,
+      message:"success",
+      data:res
+    }
+
+
+
   }
 
   @Get(':id')
-  getStudent():Promise<any>{
-    return  this.studentService.getStudent()
+  async getStudent(@Param('id') id):Promise<Result>{
+    const res = await  this.studentService.getStudent(id)
+
+    return  {
+      code:200,
+      message:"success",
+      data:res
+    }
   }
 
   @Post()
-  async saveStudent(@Body() P:StudentEntity):Promise<any>{
+  async saveStudent(@Body() P:StudentEntity):Promise<Result>{
       const createStudent = await  this.studentService.saveStudent(P)
       return {
-        P:createStudent
+        code:200,
+        message:"SUCCESS",
+        data:createStudent,
+
       }
   }
+
+  @Put(':id')
+  async updateStudent(@Param('id') id:number,@Body() P:StudentEntity):Promise<Result>{
+      const res = await  this.studentService.updateStudent(id,P)
+      return  {
+        code:200,
+        message:"success",
+        data:res
+      }
+  }
+
+  @Delete(':id')
+
+  async destroy(@Param('id') id):Promise<Result>{
+   const res = await this.studentService.destroyStudent(id)
+    return {
+     code:200,
+      message:"success",
+      data:res
+    }
+
+  }
+
+ /* @Post()
+  async create(@Body() P:CreateStudentDto):Promise<any>{
+    console.log(P);
+      return {
+        P
+      }
+  }*/
 
 }
 

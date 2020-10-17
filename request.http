@@ -1,9 +1,35 @@
 @host = http://localhost:3000
 
-POST {{host}} /student HTTP/1.1
-Content-Type: application/json
+
+
+### post
+POST {{host}}/student HTTP/1.1
+Content-Type:application/json
 User-Agent: vscode-reuqest
 
-name="xyz"
-&age=18
-&grade=1
+{
+ "name":"xyz",
+ "age":18,
+ "grade":1
+}
+
+###put
+PUT {{host}}/student/13 HTTP/1.1
+Content-Type:application/json
+User-Agent: vscode-reuqest
+
+{
+ "name":"567",
+ "age":18,
+ "grade":1
+}
+
+
+### delete
+
+DELETE {{host}}/student/14 HTTP/1.1
+Content-Type:application/json
+User-Agent: vscode-reuqest
+
+
+

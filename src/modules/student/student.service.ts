@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException,Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StudentEntity } from './student.entity';
@@ -7,38 +7,51 @@ import { StudentEntity } from './student.entity';
 export class StudentService {
   constructor(
     @InjectRepository(StudentEntity)
-    private  readonly  studentRepository:Repository<any>
+    private  readonly  studentRepository:Repository<StudentEntity>
   ) {}
 
-
   async getStudentsList():Promise<StudentEntity[]> {
-
     return await this.studentRepository.find()
   }
 
-  async getStudent():Promise<StudentEntity[]> {
-
-    return await this.studentRepository.findOne(1)
+  async getStudent(id:number):Promise<StudentEntity> {
+    return await this.findOneById(id)
   }
 
-  async saveStudent(p:StudentEntity):Promise<StudentEntity[]> {
+  async saveStudent(p:StudentEntity):Promise<StudentEntity> {
     try {
       return await this.studentRepository.save(p)
     } catch (e) {
       return e
-
-
     }
-
-    /*async updateStudent(id:number,P:Partial<StudentEntity>){
-      try {
-        await  this.studentRepository.update(id,P)
-        return this.studentRepository.findOne(id)
-      }catch (e) {
-        return  {e}
-      }
-    }*/
-
   }
+
+  async  updateStudent(id:number, P:StudentEntity):Promise<any>{
+    try {
+      await this.findOneById(id);
+      delete  P.id;
+      return await this.studentRepository.update(id,P);
+    }catch (e){
+      return  e
+    }
+  }
+
+  async destroyStudent(id:number):Promise<any>{
+      return await  this.studentRepository.delete(id)
+  }
+
+  /**
+   * 根据ID查询单个信息，如果不存在则抛出404异常
+   * @param id ID
+   */
+  private async findOneById(id: number): Promise<StudentEntity> {
+    const catInfo = await this.studentRepository.findOne(id);
+    if (!catInfo) {
+      throw new HttpException(`指定 id=${id} 不存在`, 404);
+    }
+    return catInfo;
+  }
+
+
 
 }

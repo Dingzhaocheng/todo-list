@@ -1,11 +1,25 @@
 import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './app.module';
+import  {SwaggerModule,DocumentBuilder} from '@nestjs/swagger'
 /*import cookieParser from 'cookie-parser'
 import compression from 'compression'*/
 
 async function bootstrap() {
 
   const app = await NestFactory.create(ApplicationModule);
+
+  const options = new DocumentBuilder().setTitle('学生接口')
+    .setDescription('学生接口').setVersion('1.0')
+    .addTag('student').build();
+
+  const document = SwaggerModule.createDocument(app,options)
+
+  SwaggerModule.setup('docs',app,document)
+
+
+
+
+
   await app.listen(3000);
  /* app.use(cookieParser());
 

@@ -10,10 +10,11 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true,
-    "include": [
-      "ormconfig.ts"
+    "incremental": true
 
-    ]
-  }
+  },
+  "include": [
+
+
+  ]
 }
