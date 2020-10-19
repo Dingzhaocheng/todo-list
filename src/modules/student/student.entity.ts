@@ -3,11 +3,11 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('student')
 export class StudentEntity {
   @PrimaryGeneratedColumn({
-    comment: '自增ID'
+    comment: '自增ID',
   })
   id: number;
 
-  @Column({ length: 32,comment:"昵称" })
+  @Column({ length: 32, comment: '昵称' })
   name: string;
 
   @Column('int')
@@ -16,4 +16,6 @@ export class StudentEntity {
   @Column('int')
   grade: number;
 
+  @Column('int')
+  class_id: number;
 }

@@ -1,4 +1,4 @@
-import { HttpException,Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { StudentEntity } from './student.entity';
@@ -7,37 +7,37 @@ import { StudentEntity } from './student.entity';
 export class StudentService {
   constructor(
     @InjectRepository(StudentEntity)
-    private  readonly  studentRepository:Repository<StudentEntity>
+    private readonly studentRepository: Repository<StudentEntity>,
   ) {}
 
-  async getStudentsList():Promise<StudentEntity[]> {
-    return await this.studentRepository.find()
+  async getStudentsList(): Promise<StudentEntity[]> {
+    return await this.studentRepository.find();
   }
 
-  async getStudent(id:number):Promise<StudentEntity> {
-    return await this.findOneById(id)
+  async getStudent(id: number): Promise<StudentEntity> {
+    return await this.findOneById(id);
   }
 
-  async saveStudent(p:StudentEntity):Promise<StudentEntity> {
+  async saveStudent(p: StudentEntity): Promise<StudentEntity> {
     try {
-      return await this.studentRepository.save(p)
+      return await this.studentRepository.save(p);
     } catch (e) {
-      return e
+      return e;
     }
   }
 
-  async  updateStudent(id:number, P:StudentEntity):Promise<any>{
+  async updateStudent(id: number, P: StudentEntity): Promise<any> {
     try {
       await this.findOneById(id);
-      delete  P.id;
-      return await this.studentRepository.update(id,P);
-    }catch (e){
-      return  e
+      delete P.id;
+      return await this.studentRepository.update(id, P);
+    } catch (e) {
+      return e;
     }
   }
 
-  async destroyStudent(id:number):Promise<any>{
-      return await  this.studentRepository.delete(id)
+  async destroyStudent(id: number): Promise<any> {
+    return await this.studentRepository.delete(id);
   }
 
   /**
@@ -51,7 +51,4 @@ export class StudentService {
     }
     return catInfo;
   }
-
-
-
 }

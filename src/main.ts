@@ -1,32 +1,34 @@
 import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './app.module';
-import  {SwaggerModule,DocumentBuilder} from '@nestjs/swagger'
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
 /*import cookieParser from 'cookie-parser'
 import compression from 'compression'*/
 
 async function bootstrap() {
+  const APP = await NestFactory.create(ApplicationModule);
+  const CONFIG_SERVICE = APP.get(ConfigService);
+  const PORT = CONFIG_SERVICE.get('PORT');
+  const OPTIONS = new DocumentBuilder()
+    .setTitle('学生接口')
+    .setDescription('学生接口')
+    .setVersion('1.0')
+    .addTag('student')
+    .build();
 
-  const app = await NestFactory.create(ApplicationModule);
+  const document = SwaggerModule.createDocument(APP, OPTIONS);
 
-  const options = new DocumentBuilder().setTitle('学生接口')
-    .setDescription('学生接口').setVersion('1.0')
-    .addTag('student').build();
+  SwaggerModule.setup('docs', APP, document);
+  APP.enableCors();
 
-  const document = SwaggerModule.createDocument(app,options)
+  await APP.listen(PORT);
 
-  SwaggerModule.setup('docs',app,document)
-
-
-
-
-
-  await app.listen(3000);
- /* app.use(cookieParser());
+  /* app.use(cookieParser());
 
   //  是否开启跨域配置
-  app.enableCors();*/
+  */
 
- /* //  静态资源配置
+  /* //  静态资源配置
   app.useStaticAssets(join(__dirname, 'uploads'), {
     prefix: '/static'
   })
