@@ -2,14 +2,28 @@ import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 /*import cookieParser from 'cookie-parser'
 import compression from 'compression'*/
 
 async function bootstrap() {
-  const APP = await NestFactory.create(ApplicationModule);
+  const APP = await NestFactory.createMicroservice<MicroserviceOptions>(
+    ApplicationModule,
+    {
+      transport: Transport.KAFKA,
+      options: {
+        client: {
+          brokers: ['172.16.0.71:9092'],
+        },
+        consumer: {
+          groupId: 'my-kafka-consumer',
+        },
+      },
+    },
+  );
   const CONFIG_SERVICE = APP.get(ConfigService);
   const PORT = CONFIG_SERVICE.get('PORT');
-  const OPTIONS = new DocumentBuilder()
+  /* const OPTIONS = new DocumentBuilder()
     .setTitle('学生接口')
     .setDescription('学生接口')
     .setVersion('1.0')
@@ -19,7 +33,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(APP, OPTIONS);
 
   SwaggerModule.setup('docs', APP, document);
-  APP.enableCors();
+  APP.enableCors();*/
 
   await APP.listen(PORT);
 

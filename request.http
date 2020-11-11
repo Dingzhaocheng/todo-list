@@ -1,11 +1,18 @@
 @host = http://localhost:3000
 
-
+@miaokids = http://admin.miaokids.com/admin-io/course-config/logistics/253564
 
 
 ###get
 
 GET {{host}}/student HTTP/1.1
+Content-Type: application/json
+User-Agent: vscode-request
+
+
+
+#####
+GET {{miaokids}} HTTP/1.1
 Content-Type: application/json
 User-Agent: vscode-request
 
@@ -42,4 +49,20 @@ Content-Type:application/json
 User-Agent: vscode-request
 
 
+#### 
 
+POST https://aip.baidubce.com/rpc/2.0/nlp/v1/address?access_token=24.85b9740bbff1e0159d689ea36f8c9243.2592000.1605687662.282335-19936092&charset=UTF-8 HTTP/1.1
+Content-Type:application/json
+User-Agent: vscode-request
+
+ {"text": "天津市大港区福港园2号楼"}
+
+
+####get
+
+GET https://restapi.amap.com/v3/geocode/geo HTTP/1.1
+Content-Type:application/json
+User-Agent: vscode-request
+
+address="天津市大港区福港园2号楼"
+&key="a1502a1d04b6817b01301973509bfc6f"

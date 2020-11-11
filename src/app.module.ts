@@ -1,18 +1,21 @@
-import { Module } from '@nestjs/common';
+import { HttpModule, Module } from '@nestjs/common';
 import { AppModule } from './modules/app/app.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { studentModule } from './modules/student/student.module';
+import { MicroModule } from './modules/micro/micro.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { ErrorsInterceptor } from './common/errors.interceptor';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
+
 import { TypeOrmConfigService } from './config/TypeOrmConfigService';
 
 @Module({
   imports: [
     AppModule,
     studentModule,
+    HttpModule,
+    MicroModule,
     TypeOrmModule.forRootAsync({
       // 會利用ConfigService，所以要import
       imports: [ConfigModule],
