@@ -10,6 +10,13 @@ Content-Type: application/json
 User-Agent: vscode-request
 
 
+### fetch user
+GET {{host}}/users/12 HTTP/1.1
+Content-Type: application/json
+User-Agent: vscode-request
+
+
+
 
 #####
 GET {{miaokids}} HTTP/1.1

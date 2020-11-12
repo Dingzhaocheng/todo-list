@@ -9,7 +9,8 @@ import compression from 'compression'*/
 async function bootstrap() {
   const APP = await NestFactory.createMicroservice<MicroserviceOptions>(
     ApplicationModule,
-    {
+
+    /*  {
       transport: Transport.KAFKA,
       options: {
         client: {
@@ -19,7 +20,7 @@ async function bootstrap() {
           groupId: 'my-kafka-consumer',
         },
       },
-    },
+    },*/
   );
   const CONFIG_SERVICE = APP.get(ConfigService);
   const PORT = CONFIG_SERVICE.get('PORT');
