@@ -1,7 +1,11 @@
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import { Injectable } from '@nestjs/common';
+import { StudentEntity } from '../modules/student/student.entity';
+import path = require('path');
+import { doc } from 'prettier';
 
+console.log(path.resolve(__dirname, '..', 'models/*.ts'));
 @Injectable()
 // 需要實作TypeOrmOptionsFactory
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
@@ -17,6 +21,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       password: this.configService.get('DATABASE__PWD'),
       database: this.configService.get('DATABASE__SCHEMA'),
       synchronize: true,
+      entities: [path.join(__dirname, '/../**/**.entity{.ts,.js}')],
       logging: true,
     };
   }

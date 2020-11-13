@@ -45,10 +45,10 @@ export class StudentService {
    * @param id ID
    */
   private async findOneById(id: number): Promise<StudentEntity> {
-    const catInfo = await this.studentRepository.findOne(id);
-    if (!catInfo) {
+    const info = await this.studentRepository.findOne(id);
+    if (!info) {
       throw new HttpException(`指定 id=${id} 不存在`, 404);
     }
-    return catInfo;
+    return info;
   }
 }

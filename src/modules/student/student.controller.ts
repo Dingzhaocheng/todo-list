@@ -15,7 +15,7 @@ import { CreateStudentDto } from './dto/student.dto';
 import { Result } from '../../common/result.interface';
 
 @Controller('student')
-export class studentController {
+export class StudentController {
   constructor(
     @Inject(StudentService) private readonly studentService: StudentService,
   ) {}

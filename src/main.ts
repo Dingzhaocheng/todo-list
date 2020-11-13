@@ -2,15 +2,16 @@ import { NestFactory } from '@nestjs/core';
 import { ApplicationModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
+// @ts-ignore
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 /*import cookieParser from 'cookie-parser'
 import compression from 'compression'*/
 
 async function bootstrap() {
-  const APP = await NestFactory.createMicroservice<MicroserviceOptions>(
+  const APP = await NestFactory.create(
     ApplicationModule,
 
-    /*  {
+    /*{
       transport: Transport.KAFKA,
       options: {
         client: {
